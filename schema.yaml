@@ -1,0 +1,252 @@
+## Copyright (c) 2024, Oracle and/or its affiliates.
+## All rights reserved. The Universal Permissive License (UPL), Version 1.0 as shown at http://oss.oracle.com/licenses/upl
+
+title: "OCI Generative AI Service Quickstart"
+stackDescription: "OCI Generative AI service Infra setup and a demo custom model creation"
+description: "OCI Generative AI service Infra setup and a demo custom model creation"
+schemaVersion: 1.1.0
+version: "20240228"
+locale: "en"
+
+#################
+# Variable Groups
+#################
+variableGroups:
+  - title: General Configuration
+    visible: false
+    variables:
+      - tenancy_ocid
+      - compartment_ocid
+      - user_ocid
+      - fingerprint
+      - private_key_path
+      - region
+  - title: Common Variables
+    visible: true
+    variables:
+      - name_prefix
+      - compartment_id
+
+  - title: Dedicated AI Cluster For Tuning
+    visible: true
+    variables:
+      - create_dac_for_tuning
+      - dedicated_ai_cluster_unit_count_for_tuning
+      - dedicated_ai_cluster_unit_shape_for_tuning
+  - title: Dedicated AI Cluster For Hosting
+    visible: true
+    variables:
+      - create_dac_for_hosting
+      - dedicated_ai_cluster_unit_count_for_hosting
+      - dedicated_ai_cluster_unit_shape_for_hosting
+  - title: Custom Fine tuned Model
+    visible: true
+    variables:
+      - create_a_custom_model
+      - model_vendor
+      - model_version
+      - model_fine_tune_details_training_config_training_config_type
+      - model_fine_tune_details_training_dataset_dataset_type
+      - model_fine_tune_details_training_dataset_object
+  - title: Custom endpoints
+    visible: true
+    variables:
+      - create_custom_endpoint
+      - endpoint_content_moderation_config_is_enabled
+      - endpoint_description
+  - title: Filter Values (Optional)
+    visible: true
+    variables:
+      - model_capabilities
+      - model_state
+
+
+######################
+# Variable Definitions
+######################
+variables:
+  # Required
+  compartment_id:
+    type: oci:identity:compartment:id
+    title: "Compartment"
+    description: "The compartment in which to create resources"
+    required: true
+  name_prefix:
+    type: string
+    title: "A string to prefix your OCI Resources"
+    required: true
+    default: "ociGenAI"
+
+  create_dac_for_hosting:
+    type: boolean
+    title: "Tick the Checkbox for a DAC to host custom model"
+    required: true
+    default: true
+
+  dedicated_ai_cluster_unit_count_for_hosting:
+    type: integer
+    title: "Number of dedicated units in AI cluster for hosting"
+    minimum: 1
+    maximum: 2
+    required: true
+    default: 1
+    visible:
+      and:
+        - create_dac_for_hosting
+  dedicated_ai_cluster_unit_shape_for_hosting:
+    type: enum
+    title: "Must be same as that of DAC model used for Tuning"
+    required: true
+    enum:
+      - LARGE_COHERE
+      - SMALL_COHERE
+    default: LARGE_COHERE
+    visible:
+      and:
+        - create_dac_for_hosting
+
+  create_dac_for_tuning:
+    type: boolean
+    title: "Tick the Checkbox for a DAC to tune model"
+    required: true
+    default: true
+  dedicated_ai_cluster_unit_count_for_tuning:
+    type: integer
+    title: "Number of dedicated units in AI cluster for tuning"
+    required: true
+    default: 2
+    minimum: 1
+    maximum: 4
+    visible:
+      and:
+        - create_dac_for_tuning
+  dedicated_ai_cluster_unit_shape_for_tuning:
+    type: enum
+    title: "The shape of dedicated unit in this AI cluster"
+    required: true
+    enum:
+      - SMALL_COHERE
+      - LARGE_COHERE
+    default: SMALL_COHERE
+    visible:
+      and:
+        - create_dac_for_tuning
+  create_a_custom_model:
+    type: boolean
+    title: "Uncheck to disable custom model creation"
+    required: true
+    default: true
+  model_fine_tune_details_training_dataset_dataset_type:
+    type: string
+    title: "The type of dataset store"
+    required: true
+    default: OBJECT_STORAGE
+    visible:
+      and:
+        - create_a_custom_model
+  model_fine_tune_details_training_dataset_object:
+    type: string
+    title: "The sample file name"
+    required: true
+    default: "sample.jsonl"
+    visible:
+      and:
+        - create_a_custom_model
+  model_fine_tune_details_training_config_training_config_type:
+    type: string
+    title: "The finetuning type"
+    required: true
+    default: "TFEW_TRAINING_CONFIG"
+    visible:
+      and:
+        - create_a_custom_model
+  model_version:
+    type: enum
+    title: "The base model version "
+    required: true
+    enum:
+      - "15.6"
+    default: "15.6"
+    visible:
+      and:
+        - create_a_custom_model
+  model_vendor:
+    type: enum
+    title: "The base model vendor "
+    required: true
+    enum:
+      - "cohere"
+    default: "cohere"
+    visible:
+      and:
+        - create_a_custom_model
+  model_capabilities:
+    type: enum
+    title: "The base model capabilities "
+    required: true
+    enum:
+      - "FINE_TUNE"
+    default: "FINE_TUNE"
+    visible:
+      and:
+        - create_a_custom_model
+  model_state:
+    type: enum
+    title: "The base model state "
+    required: true
+    enum:
+      - "ACTIVE"
+    default: "ACTIVE"
+    visible:
+      and:
+        - create_a_custom_model
+  create_custom_endpoint:
+    type: boolean
+    title: "Uncheck to disable creation of custom endpoint"
+    required: true
+    default: true
+  endpoint_content_moderation_config_is_enabled:
+    type: boolean
+    title: "Check to enable content moderation"
+    required: true
+    default: true
+    visible:
+      and:
+        - create_custom_endpoint
+  endpoint_description:
+    type: string
+    title: "Description for custom endpoint"
+    required: true
+    default: "OCI GenAI custom endpoint"
+    visible:
+      and:
+        - create_custom_endpoint
+
+#################
+# Output Groups
+#################
+# output variable groups
+outputGroups:
+  - title: "Stack outputs"
+    outputs:
+      - name_of_dac_for_hosting
+      - name_of_dac_for_finetuning
+      - endpoint_ocid
+outputs:
+  name_of_dac_for_hosting:
+    title: "Name of the DAC for Hosting"
+  name_of_dac_for_finetuning:
+    title: "Name of the DAC for Fine tune"
+  endpoint_ocid:
+    title: "OCID of the endpoint"
+
+
+
+
+
+
+
+
+
+
+

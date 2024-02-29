@@ -1,0 +1,11 @@
+# Authentication
+tenancy_ocid         = "OCID of OCI Tenancy"
+user_ocid            = "OCID of the OCI User"
+fingerprint          = "FingerPrint of OCI User"
+private_key_path     = "Path to Private Key"
+
+# Region
+region = "OCI Region"
+
+# Compartment
+compartment_id = "OCID of OCI Compartment"
