@@ -13,11 +13,9 @@ This terraform stack helps to accelerate the GenAI service bootstrap with variou
 1. A fine-tuned custom model.
 1. A Generative AI Dedicated Cluster (DAC) for hosting the custom model and endpoints to access the custom model.
 
-[![](images/genai_service_infra.jpg)](images/use.mp4)
-
 ## Deploy Using Oracle Resource Manager
 
-1. Click [![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?region=home&zipUrl=https://github.com/oracle-devrel/terraform-oci-arch-devops-cicd-instances/releases/latest/download/terraform-oci-arch-devops-cicd-instances-stack-latest.zip)
+1. Click [![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?region=home&zipUrl=https://github.com/oracle-devrel/oci-terraform-genai-service-infra/releases/latest/download/oci-terraform-genai-service-infra-stack-latest.zip)
 
    If you aren't already signed in, when prompted, enter the tenancy and user credentials.
 
@@ -35,12 +33,14 @@ This terraform stack helps to accelerate the GenAI service bootstrap with variou
 
 7. If no further changes are necessary, return to the Stack Details page, click **Terraform Actions**, and select **Apply**.
 
+### A snippet of OCI Resource manager usage.
+
+![ocirms](images/use.gif)
+
 ### Validate the Deployment
 
-- Post the infra deployment , run a build run using `OCI Console` >`Developer service`>`OCI Devops project`>`Project Name ` > `Build pipeline` > `Name of the build pipeline`
-
-- Validate the application using the loadbalancer's public ip address.
-
+- Using `OCI Console` > `AI Services` > `Generative AI` ,validate the resources.
+- The custom model can be available via `OCI Generative AI > Playground`
 
 ## Deploy Using the Terraform CLI
 
@@ -48,58 +48,49 @@ This terraform stack helps to accelerate the GenAI service bootstrap with variou
 
 Now, you'll want a local copy of this repo. You can make that with the commands:
 
-    git clone https://github.com/oracle-devrel/terraform-oci-arch-devops-cicd-with-functions
-    cd terraform-oci-arch-devops-cicd-with-functions
-    ls
-
+```shell
+$ git clone  https://github.com/oracle-devrel/oci-terraform-genai-service-infra
+$ cd oci-terraform-genai-service-infra
+$ ls
+```
 ### Prerequisites
 First off, you'll need to do some pre-deploy setup.  That's all detailed [here](https://github.com/cloud-partners/oci-prerequisites).
 
 Secondly, create a `terraform.tfvars` file and populate with the following information:
-
-```
+```terraform
 # Authentication
-tenancy_ocid         = "<tenancy_ocid>"
-user_ocid            = "<user_ocid>"
-fingerprint          = "<finger_print>"
-private_key_path     = "<pem_private_key_path>"
+tenancy_ocid         = "OCID of OCI Tenancy"
+user_ocid            = "OCID of the OCI User"
+fingerprint          = "FingerPrint of OCI User"
+private_key_path     = "Path to Private Key"
 
 # Region
-region = "<oci_region>"
+region = "OCI Region"
 
 # Compartment
-compartment_ocid = "<compartment_ocid>"
+compartment_id = "OCID of OCI Compartment"
+```
 
-# OCI User and Authtoken
-oci_user_name       = "<oci_username> 
-# For a federated user (single sign-on with an identity provider), enter the username in the following format: TenancyName/Federation/UserName. 
-# For example, if you use OCI's identity provider, your login would be, Acme/oracleidentitycloudservice/alice.jones@acme.com. 
-#If you are using OCI's direct sign-in, enter the username in the following format: TenancyName/YourUserName. For example, Acme/alice_jones. Your password is the auth token you created previously.
-
-oci_user_authtoken = "<oci_user_authtoken>" 
-# You can get the auth token from your Profile menu -> click User Settings -> On left side  click *Auth Tokens -> Generate Token
-
-````
 
 Deploy:
-
-    terraform init
-    terraform plan
-    terraform apply
-
-
+```shell
+$ terraform init
+$ terraform plan
+$ terraform apply
+```
 ### Validate the Deployment
 
-- Post the infra deployment , run a build run using `OCI Console` >`Developer service`>`OCI Devops project`>`Project Name ` > `Build pipeline` > `Name of the build pipeline`
-
-- Validate the application using the loadbalancer's public ip address.
+- Using `OCI Console` > `AI Services` > `Generative AI` ,validate the resources.
+- The custom model can be available via `OCI Generative AI > Playground`
 
 
 ## Destroy the Deployment
-Delete all the artifacts with in the `OCI Artifact repository` then follow terraform command and destroy.
+Delete the data file used for fine-tuned from  `OCI Object-storage bucket` then follow terraform command and destroy.
 
-    terraform destroy
-
+```shell
+ $ terraform destroy
+```
+   
 ## Contributing
 This project is open source.  Please submit your contributions by forking this repository and submitting a pull request!  Oracle appreciates any contributions that are made by the open source community.
 
@@ -107,6 +98,6 @@ This project is open source.  Please submit your contributions by forking this r
 - Rahul M R (https://github.com/RahulMR42)
 
 ## License
-Copyright (c) 2022 Oracle and/or its affiliates.
+Copyright (c) 2024 Oracle and/or its affiliates.
 Licensed under the Universal Permissive License (UPL), Version 1.0.
 See [LICENSE](LICENSE) for more details.
