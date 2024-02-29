@@ -1,5 +1,5 @@
 resource "oci_objectstorage_bucket" "object_storage_bucket" {
-  count = local.count_objectstorage
+  count          = local.count_objectstorage
   access_type    = var.bucket_access_type
   auto_tiering   = var.auto_tiering
   compartment_id = var.compartment_id

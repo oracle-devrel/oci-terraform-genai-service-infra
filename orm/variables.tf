@@ -9,7 +9,7 @@ variable "tenancy_ocid" {}
 variable "compartment_id" {}
 variable "region" {}
 variable "name_prefix" {
-  default = "OCIGenAIService"
+  default     = "OCIGenAIService"
   description = "A prefix for resources names"
 }
 
@@ -20,56 +20,56 @@ variable "release" {
 
 /*Tag variable*/
 variable "defined_tags" {
-  default = {}
+  default     = {}
   description = "OCI Defined tags"
 }
 variable "freeform_tags" {
-  default = {}
+  default     = {}
   description = "OCI Freeform tags"
 }
 
 
 /*Dedicated AI Cluster (DAC) variables for hosting*/
- variable "create_dac_for_hosting" {
-   default = true
-   description = "Set false to not to create a DAC for hosting"
- }
+variable "create_dac_for_hosting" {
+  default     = true
+  description = "Set false to not to create a DAC for hosting"
+}
 
 
 
 variable "dedicated_ai_cluster_unit_count_for_hosting" {
-  default = 1
+  default     = 1
   description = "number of dedicated units in AI cluster for hosting"
 }
 variable "dedicated_ai_cluster_unit_shape_for_hosting" {
-  default = "LARGE_COHERE"
+  default     = "LARGE_COHERE"
   description = "The shape of dedicated unit in this AI cluster"
 }
 
 /*Dedicated AI Cluster(DAC) variables for Tuning*/
 
 variable "create_dac_for_tuning" {
-  default = true
+  default     = true
   description = "set false to not to create a DAC for fine tuning"
 }
 variable "dedicated_ai_cluster_unit_count_for_tuning" {
-  default = 2
+  default     = 2
   description = "number of dedicated units in AI cluster for tuning"
 }
 variable "dedicated_ai_cluster_unit_shape_for_tuning" {
-  default = "SMALL_COHERE"
+  default     = "SMALL_COHERE"
   description = "The shape of dedicated unit in this AI cluster"
 }
 
 /*Object Storage bucket Variables for Tuning*/
 
 variable "create_new_objectstorage_bucket" {
-  default = true
+  default     = true
   description = "Set to false to use an existing object storage bucket"
 }
 
 variable "existing_objectstorage_bucket_ocid" {
-  default = ""
+  default     = ""
   description = "OCID of the existing objectstorage bucket"
 }
 variable "bucket_access_type" {
@@ -99,57 +99,57 @@ variable "versioning" {
 /* Variables for custom model*/
 
 variable "model_state" {
-  default = ["ACTIVE"]
+  default     = ["ACTIVE"]
   description = "State of a model to fetch"
 }
 variable "model_vendor" {
-  default = ["cohere"]
+  default     = ["cohere"]
   description = "vendor for the model"
 }
 variable "model_version" {
-  default = ["15.6"]
+  default     = ["15.6"]
   description = "Version to finetune"
 }
 
 variable "model_capabilities" {
-  default = ["FINE_TUNE"]
+  default     = ["FINE_TUNE"]
   description = "model capabilities"
 }
 
 variable "create_a_custom_model" {
-  default = true
+  default     = true
   description = "Set false to not to create a custom model"
 }
 variable "model_fine_tune_details_training_dataset_dataset_type" {
-  default = "OBJECT_STORAGE"
+  default     = "OBJECT_STORAGE"
   description = "type of dataset store"
 }
 variable "model_fine_tune_details_training_dataset_object" {
-  default = "sample.jsonl"
+  default     = "sample.jsonl"
   description = "Default sample file"
 }
 variable "model_fine_tune_details_training_config_training_config_type" {
-  default = "TFEW_TRAINING_CONFIG"
+  default     = "TFEW_TRAINING_CONFIG"
   description = "fine tuning type "
 }
 variable "model_description" {
-  default = "Custom tuned model"
+  default     = "Custom tuned model"
   description = "Description for the model"
 }
 variable "finetuned_model_version" {
-  default = "0.0"
+  default     = "0.0"
   description = "fine tuned model version"
 }
 /*Variables related endpoint*/
 variable "create_custom_endpoint" {
-  default = true
+  default     = true
   description = "set false to disable custom endpoint"
 }
 variable "endpoint_description" {
-  default = "Genai endpoint from custom model"
+  default     = "Genai endpoint from custom model"
   description = "Description for endpoint"
 }
 variable "endpoint_content_moderation_config_is_enabled" {
-  default = true
+  default     = true
   description = "Set true for content moderation"
 }
