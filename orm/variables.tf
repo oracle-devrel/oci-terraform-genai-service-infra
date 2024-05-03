@@ -15,7 +15,7 @@ variable "name_prefix" {
 
 variable "release" {
   description = "Reference Architecture Release (OCI Architecture Center)"
-  default     = "0.0.0"
+  default     = "0.0.1"
 }
 
 /*Tag variable*/

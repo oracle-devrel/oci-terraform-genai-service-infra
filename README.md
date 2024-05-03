@@ -53,6 +53,24 @@ $ git clone  https://github.com/oracle-devrel/oci-terraform-genai-service-infra
 $ cd oci-terraform-genai-service-infra
 $ ls
 ```
+
+### User level permission required.
+
+- User should be able to manage `generative-ai-family` with in OCI for the respective compartment.
+- If the user is not an admin ,create a dynamic group and provide below policies 
+
+```terraform
+Dynamic Group rule (Select check box ANY ) 
+ALL {resource.type = 'generative-ai-model', resource.compartment.id = 'Compartment OCID'}
+ALL {resource.type = 'generative-ai-dedicated-ai-cluster', resource.compartment.id = 'Compartment OCID'}
+```
+- Policy statement
+
+```java        
+Allow dynamic-group <Name of the Above Dynamic group> to use object-family in compartment id 'Compartment OCID'
+
+```
+
 ### Prerequisites
 First off, you'll need to do some pre-deploy setup.  That's all detailed [here](https://github.com/cloud-partners/oci-prerequisites).
 
